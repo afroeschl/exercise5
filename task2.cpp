@@ -13,7 +13,6 @@ namespace task2 {
 /// @todo Implement function 'select' as declared and specified in task2.hpp
 std::unordered_set<size_t> select(const std::vector<Vec2d>& vertices, const Region& region,
                                   bool invert) {
-  std::unordered_set<size_t> selected;
   return {};
 }
 
