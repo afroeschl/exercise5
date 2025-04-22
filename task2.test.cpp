@@ -21,9 +21,9 @@ int main() {
   // upper diagonal halfspace region
   auto upper_diagonal_halfspace = [](const Vec2d& coord) -> bool {
     auto [x, y] = coord;
-    if (y > x && std::abs(x - y) > 1e-9)
-      return true;
-    return false;
+    if (y < x)
+      return false;
+    return true;
   };
 
   { // adding random vertices in upper diagonal halfspace
