@@ -2,6 +2,9 @@
 /// @brief Task1: "single-file" excutable C++ program
 
 /// @todo Include standard library headers as needed
+#include <iostream>
+#include <unordered_set>
+#include <vector>
 
 namespace task1 {
 
@@ -21,4 +24,16 @@ namespace task1 {
 /// - use your function to count the unique values in the sequence above
 /// - print the number of unique values to the console
 
-int main() { return 0; }
+int count(std::vector<int> values) {
+  std::unordered_set<int> unique_values;
+  for (int value : values) {
+    unique_values.insert(value);
+  }
+  return unique_values.size();
+}
+
+int main() {
+  std::vector<int> values = {1, 1, 10, 2, 2, 3, 4, 5, 6, 7, 8, 9, 10, 3, 3, 11, 12, 13, 14};
+  std::cout << count(values) << std::endl;
+  return 0;
+}
