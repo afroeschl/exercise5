@@ -50,21 +50,14 @@ iue::msh::Triangles generate_double_annulus(task2::Vec2d c1, task2::Vec2d c2, do
 
   auto mesh = iue::msh::Triangles({min, max}, h);
 
-  auto isOuterR = [R](const Vec2d& c) {
-    return [R, c](const Vec2d& v) {
-      // Compute the squared distance from the center c
-      return (pow(v[0] - c[0], 2) + pow(v[1] - c[1], 2)) < R * R;
+  auto annulus = [r, R](const Vec2d& c) {
+    return [r, R, c](const Vec2d& v) {
+      double d2 = (v[0] - c[0]) * (v[0] - c[0]) + (v[1] - c[1]) * (v[1] - c[1]);
+      return (d2 > r * r) && (d2 < R * R);
     };
   };
+  std::vector<Region> regions = {annulus(c1), annulus(c2)};
 
-  auto isInnerR = [r](const Vec2d& c) {
-    return [r, c](const Vec2d& v) {
-      // Compute the squared distance from the center c
-      return (pow(v[0] - c[0], 2) + pow(v[1] - c[1], 2)) > r * r;
-    };
-  };
-
-  std::vector<Region> regions = {isOuterR(c1), isOuterR(c2), isInnerR(c1), isInnerR(c2)};
   std::vector<Vec2d> vertices = mesh.getVertices();
 
   std::unordered_set<size_t> removeSet = select_union(vertices, regions, 1);
