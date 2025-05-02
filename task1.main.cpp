@@ -24,7 +24,7 @@ namespace task1 {
 /// - use your function to count the unique values in the sequence above
 /// - print the number of unique values to the console
 
-int count(std::vector<int> values) {
+int count_unique(std::vector<int> values) {
   std::unordered_set<int> unique_values;
   for (int value : values) {
     unique_values.insert(value);
