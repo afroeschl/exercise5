@@ -1,4 +1,4 @@
-/// @file
+// @file
 /// @brief Task3: implementation
 
 #include "task3.hpp" // task3::generate_double_annulus
@@ -8,6 +8,22 @@
 
 /// @todo Include additional standard library headers as needed
 #include <cmath> // std::exp
+
+struct Annulus {
+  task2::Vec2d center;
+  double r, R;
+
+  Annulus(const task2::Vec2d& c, double inner, double outer) : center(c), r(inner), R(outer) {
+    // Space for optional validation eg. (inner > 0 && outer > inner)
+  }
+  bool operator()(const task2::Vec2d& v) const {
+    // calc difference, then check if the point to test is in the anullus, done at the return
+    double dx = v[0] - center[0];
+    double dy = v[1] - center[1];
+    double d2 = dx * dx + dy * dy;
+    return (d2 > r * r) && (d2 < R * R);
+  }
+};
 
 namespace task3 {
 
@@ -33,7 +49,15 @@ using namespace task2;
 
 iue::msh::Triangles generate_double_annulus(task2::Vec2d c1, task2::Vec2d c2, double r, double R,
                                             double h) {
+  double min_x = std::min(c1[0] - R, c2[0] - R);
+  double min_y = std::min(c1[1] - R, c2[1] - R);
+  double max_x = std::max(c1[0] + R, c2[0] + R);
+  double max_y = std::max(c1[1] + R, c2[1] + R);
 
+  task2::Vec2d min = {min_x, min_y};
+  task2::Vec2d max = {max_x, max_y};
+
+<<<<<<< HEAD
   double min_x = std::min(c1[0] - R, c2[0] - R);
   double min_y = std::min(c1[1] - R, c2[1] - R);
   double max_x = std::max(c1[0] + R, c2[0] + R);
@@ -63,6 +87,15 @@ iue::msh::Triangles generate_double_annulus(task2::Vec2d c1, task2::Vec2d c2, do
   std::unordered_set<size_t> removeSet = select_union(vertices, regions, 1);
   mesh.remove_vertices(removeSet);
 
+=======
+  auto mesh = iue::msh::Triangles({min, max}, h);
+  Annulus a(c1, r, R);
+  Annulus b(c2, r, R);
+  std::vector<Region> regions = {a, b};
+  std::vector<Vec2d> vertices = mesh.getVertices();
+  std::unordered_set<size_t> removeSet = select_union(vertices, regions, 1);
+  mesh.remove_vertices(removeSet);
+>>>>>>> c250bd1 (different approach, using struct for task3)
   return mesh;
 }
 
