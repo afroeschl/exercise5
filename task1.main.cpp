@@ -34,6 +34,6 @@ int count_unique(std::vector<int> values) {
 
 int main() {
   std::vector<int> values = {1, 1, 10, 2, 2, 3, 4, 5, 6, 7, 8, 9, 10, 3, 3, 11, 12, 13, 14};
-  std::cout << count(values) << std::endl;
+  std::cout << count_unique(values) << std::endl;
   return 0;
 }
